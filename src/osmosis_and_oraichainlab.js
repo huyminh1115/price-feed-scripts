@@ -32,12 +32,21 @@ const getExchangeRate = async (url, count2) => {
 const main = async (symbols) => {
     const responses = [];
     const listSymbols = JSON.parse(JSON.parse(symbols)[0]);
+
+    const symbolMapping = {
+        "USDT": "USDT",
+        "ORAI": "ORAI-token",
+        "ATOM": "ATOM",
+        "STATOM" : "ATOM",
+        "OSMO": "OSMO",
+        "STOSMO": "OSMO",
+    };
         
     for (let i = 0; i < listSymbols.length; i++) {
         let _name=``;
         let _price=``;
         if(listSymbols[i] != `ORAI`){
-            const resultObj = await getPrice(`https://api-osmosis.imperator.co/tokens/v2/price/${listSymbols[i]}`);
+            const resultObj = await getPrice(`https://api-osmosis.imperator.co/tokens/v2/price/${symbolMapping[listSymbols[i]]}`);
             if (!("message" in resultObj)) {
                 let exchangeRate = 1;
                 if(listSymbols[i] == "STATOM"){
