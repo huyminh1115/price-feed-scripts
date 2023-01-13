@@ -60,7 +60,7 @@ const main = async (symbols) => {
             priceUsd = priceUsd*exchangeRate;
             responses.push({
                 name: listSymbols[i],
-                prices: [priceUsd.toString()],
+                prices: [parseFloat(priceUsd).toFixed(8)],
             });
         }
     }

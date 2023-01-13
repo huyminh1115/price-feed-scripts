@@ -56,7 +56,7 @@ const main = async (symbols) => {
             let priceUsd = parseFloat(resultObj.current_price).toFixed(8);
             priceUsd = priceUsd*exchangeRate;
             _name = listSymbols[i];
-            _price = [priceUsd.toString()]
+            _price = [parseFloat(priceUsd).toFixed(8)]
         }
         if(_name != `` && _price != ``){
             responses.push({
