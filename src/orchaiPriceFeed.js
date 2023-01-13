@@ -35,7 +35,7 @@ const main = async (symbols) => {
 
     const symbolMapping = {
         "USDT": "USDT",
-        "ORAI": "ORAI-token",
+        "ORAI": "ORAI",
         "ATOM": "ATOM",
         "STATOM" : "ATOM",
         "OSMO": "OSMO",
@@ -45,29 +45,18 @@ const main = async (symbols) => {
     for (let i = 0; i < listSymbols.length; i++) {
         let _name=``;
         let _price=``;
-        if(listSymbols[i] == `ORAI`){
-            const url = `https://pricefeed.oraichainlabs.org/`
-            const fetchData = await httpGet(url);
-            _name = fetchData.token;
-            _price =[fetchData.price.toFixed(8).toString()];
-        }else if(listSymbols[i] == `USDT`){
-            _name = listSymbols[i];
-            _price = ["1.000000"];
-        }
-        else{
-            const resultObj = await getPrice(`https://api-osmosis.imperator.co/tokens/v2/price/${symbolMapping[listSymbols[i]]}`);
-            if (!("message" in resultObj)) {
-                let exchangeRate = 1;
-                if(listSymbols[i] == "STATOM"){
-                    exchangeRate = parseFloat(await getExchangeRate("https://stride-fleet.main.stridenet.co/api/Stride-Labs/stride/stakeibc/host_zone/cosmoshub-4")).toFixed(8);
-                } else if (listSymbols[i] == "STOSMO"){
-                    exchangeRate = parseFloat(await getExchangeRate("https://stride-fleet.main.stridenet.co/api/Stride-Labs/stride/stakeibc/host_zone/osmosis-1")).toFixed(8);
-                }
-                let priceUsd = parseFloat(resultObj.price).toFixed(8);
-                priceUsd = priceUsd*exchangeRate;
-                _name = listSymbols[i];
-                _price = [priceUsd.toString()]
+        const resultObj = await getPrice(`https://api.orchai.io/lending/mainnet/token/${symbolMapping[listSymbols[i]]}`);
+        if (!("message" in resultObj)) {
+            let exchangeRate = 1;
+            if(listSymbols[i] == "STATOM"){
+                exchangeRate = parseFloat(await getExchangeRate("https://stride-fleet.main.stridenet.co/api/Stride-Labs/stride/stakeibc/host_zone/cosmoshub-4")).toFixed(8);
+            } else if (listSymbols[i] == "STOSMO"){
+                exchangeRate = parseFloat(await getExchangeRate("https://stride-fleet.main.stridenet.co/api/Stride-Labs/stride/stakeibc/host_zone/osmosis-1")).toFixed(8);
             }
+            let priceUsd = parseFloat(resultObj.current_price).toFixed(8);
+            priceUsd = priceUsd*exchangeRate;
+            _name = listSymbols[i];
+            _price = [priceUsd.toString()]
         }
         if(_name != `` && _price != ``){
             responses.push({
