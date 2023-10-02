@@ -59,9 +59,9 @@ const main = async (symbols) => {
             if (!("message" in resultObj)) {
                 let exchangeRate = 1;
                 if(listSymbols[i] == "STATOM"){
-                    exchangeRate = parseFloat(await getExchangeRate("https://stride-fleet.main.stridenet.co/api/Stride-Labs/stride/stakeibc/host_zone/cosmoshub-4")).toFixed(8);
+                    exchangeRate = parseFloat(await getExchangeRate("https://stride-api.polkachu.com/Stride-Labs/stride/stakeibc/host_zone/cosmoshub-4")).toFixed(8);
                 } else if (listSymbols[i] == "STOSMO"){
-                    exchangeRate = parseFloat(await getExchangeRate("https://stride-fleet.main.stridenet.co/api/Stride-Labs/stride/stakeibc/host_zone/osmosis-1")).toFixed(8);
+                    exchangeRate = parseFloat(await getExchangeRate("https://stride-api.polkachu.com/Stride-Labs/stride/stakeibc/host_zone/osmosis-1")).toFixed(8);
                 }
                 let priceUsd = parseFloat(resultObj.price).toFixed(8);
                 priceUsd = priceUsd*exchangeRate;
